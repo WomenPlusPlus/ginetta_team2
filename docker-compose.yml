@@ -1,31 +1,20 @@
-version: '3.8'
+version: '3.4'
+
+volumes:
+  ollama: {}
+  snapshots: {}
 
 services:
-  db:
-    image: postgres
+  ollama:
+    image: ollama/ollama:latest
     volumes:
-      - ./data/db:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-
-  web:
-    build: ./backend
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - ./backend:/code
+      - ollama:/root/.ollama
     ports:
-      - "8000:8000"
-    depends_on:
-      - db
-
-  frontend:
-    build: ./frontend
+      - 11434:11434
+    command: serve
+  qdrant:
+    image: qdrant/qdrant:latest
     volumes:
-      - ./frontend:/app
-      - /app/node_modules
+      - snapshots:/snapshots
     ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
+      - 6333:6333

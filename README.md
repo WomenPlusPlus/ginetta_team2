@@ -1,8 +1,10 @@
-# [Hack n Lead](https://womenplusplus.ch/hacknlead)
+# AI Swiss Legal Assistant 🇨🇭 👩‍⚖️ 🤖
 
-===
+This is a simple conversational-ui RAG (retrieval augmented generation) based on the Swiss Code of Obligations.
 
-## Steps
+> It was created a starting point of the Ginetta Challenge at the women++ [Hack'n'Lead hackathon](www.womenplusplus.ch/hackandlead) November 2023
+
+## ℹ️ Instructions
 
 1. Use this repository as a template (or Fork it)
 2. Add your team members as contributors
@@ -10,163 +12,64 @@
 4. This repository **must** be open source (and licensed) in order to submit
 5. Add the tag `hack-n-lead` to the repo description
 
+## ▶️ Setup
 
-<h1>ginetta_team2</h1>
-_team repository for team2 of the Ginetta challenge #hnl2023_ 
+There is two different ways to setup this project:
 
-<!-- TOC -->
-  * [Challenge Context](#challenge-context)
-  * [Challenge Description](#challenge-description)
-  * [Team Skills / Interests](#team-skills--interests)
-    * [Contact information](#contact-information)
-  * [Installation](#installation)
-  * [Usage](#usage)
-  * [User Experience (UX)](#user-experience-ux)
-    * [Intended Audience](#intended-audience)
-  * [Design](#design)
-    * [Wireframes](#wireframes)
-    * [Colour Scheme](#colour-scheme)
-    * [Typography](#typography)
-    * [Imagery](#imagery)
-  * [Features](#features)
-    * [General Features](#general-features)
-    * [Specific Features](#specific-features)
-    * [Future Implementations](#future-implementations)
-  * [Accessibilty](#accessibilty)
-  * [Technologies Used](#technologies-used)
-    * [Languages Used](#languages-used)
-    * [Frameworks, Libraries and Programs Used](#frameworks-libraries-and-programs-used)
-  * [Deployment](#deployment)
-    * [Remote Deployment](#remote-deployment)
-    * [Local Deployment](#local-deployment)
-  * [Testing (Manual)](#testing-manual)
-    * [User Experience Testing](#user-experience-testing)
-    * [Bugs and Fixes](#bugs-and-fixes)
-    * [Lighthouse Testing](#lighthouse-testing)
-    * [Validator Testing](#validator-testing)
-  * [Credits](#credits)
-    * [Code Used](#code-used)
-    * [Content](#content)
-    * [Media](#media)
-    * [Acknowledgements](#acknowledgements)
-<!-- TOC -->
+1. Install Ollama & Qdrant locally _(Ollama desktop app is currently is only available for Mac and Linux)_ - Ollama will take advantage of your GPU to run the model
+1. Use the [Docker Compose](https://docs.docker.com/compose/) file to run Ollama & Qdrant in containers (just run in a terminal in the project directory) - easier setup, but Ollama will run on CPU
 
-## Challenge Context
+### Option 1: 🐳 Run Docker Compose
 
-> Imagine a world where the right to legal guidance is not a luxury, but an inclusive, intuitive, and digitally accessible reality. In this digital age that increasingly influences the legal sector, the imperative to create intelligent tools for effortless law comprehension and navigation has never been more urgent. With the advent of Large Language Models (LLMs), the legal field is finally primed for innovation. Switzerland, boasting its well-structured legal system, stands as fertile ground for such pioneering solutions.
+1. `docker compose up -d` to pull & run the containers
+1. `docker compose exec ollama ollama run mistral` to download & install the mistral model
 
-## Challenge Description
+### Option 2: 🖐🏼 Manual installation
 
-> Your task is to develop a conversational AI bot designed to answer questions on Swiss private law. This bot should feature a user-friendly, engaging interface and employ a Large Language Model (LLM) combined with a vector database for generating responses. It must deliver accurate and precisely referenced answers in German, French, and English. To facilitate your work, you'll be equipped with a state-of-the-art tech stack including an LLM and a vector database as your base setup.
+1. 🦙 [Download Ollama](https://ollama.ai/download) and install it locally
+2. `ollama run mistral` to download and install the model locally (Requires 4.1GB and 8GB of RAM)
+3. Open <http://localhost:11434> to check if _Ollama is running_
+4. `docker pull qdrant/qdrant`
+5. `docker run -p 6333:6333 qdrant/qdrant`
 
-## Team Skills / Interests
+Both Option 1 and 2 continue with the following setup:
 
-UI / UX | Sanaz Reinhardt 
+### 💾 Setup Qdrant Vector Database
 
-Machine Learning / Data | Karin Sim
+1. Open the Qdrant dashboard console <http://localhost:6333/dashboard#/console>
+1. Create a new collection running this:
+   ```curl
+   PUT collections/swiss-or
+   {
+     "vectors": {
+       "size": 384,
+       "distance": "Cosine"
+     }
+   }
+   ```
+1. Download the [snapshot file](https://huggingface.co/datasets/brunnolou/swiss-code-of-obligations/resolve/main/swiss-code-of-obligations-articles-gte-small-2023-10-18-12-13-25_qdrant-v1-6-1.snapshot.zip)
+1. Unzip the file using the terminal (⚠️ **_not with Finder on Mac_** ⚠️) with `unzip <file_name>`
+1. Upload the file using the following command. Adapt the fields accordingly and run it from the same directory, as where your snapshot lies
 
-Software development with preference to backend | Yaiza Aragonés Soria 
+```shell
+curl -X POST 'http://localhost:6333/collections/swiss-or/snapshots/upload' \
+    -H 'Content-Type:multipart/form-data' \
+    -F 'snapshot=@swiss-code-of-obligations-articles-gte-small-2023-10-18-12-13-25.snapshot'
+```
 
-Software development with preference to frontend | Sirinya Richardson
+## 👩🏽‍💻 Run the App
 
-Legal Expertise
+1. Copy the file `.env.local.example` in the project and rename it to `.env`. Verify if all environment variables are correct
+1. `yarn install` to install the required dependencies
+1. `yarn dev` to launch the development server
+1. Go to <http://localhost:3000> and try out the app
 
-Project Management
+## 👩🏽‍🏫 Learn More
 
-### Contact information
+To learn more about LangChain, OpenAI, Next.js, and the Vercel AI SDK take a look at the following resources:
 
-<details>
-<summary>Sanaz Reinhardt</summary>
-
-* [LinkedIn]()
-* [GitHub]()
-* [Website]()
-
-</details>
-
-<details>
-<summary>Karin Sim</summary>
-
-* [LinkedIn]()
-* [GitHub]()
-* [Website]()
-
-</details>
-
-<details>
-<summary>Yaiza Aragonés Soria</summary>
-
-* [LinkedIn]()
-* [GitHub]()
-* [Website]()
-
-</details>
-
-<details>
-<summary>Sirinya Richardson</summary>
-
-* [LinkedIn]()
-* [GitHub]()
-* [Website]()
-
-</details>
-
-## Installation
-
-## Usage
-
-## User Experience (UX)
-
-### Intended Audience
-
-## Design
-
-### Wireframes
-
-### Colour Scheme
-
-### Typography
-
-### Imagery
-
-## Features
-
-### General Features
-
-### Specific Features
-
-### Future Implementations
-
-## Accessibilty
-
-## Technologies Used
-
-### Languages Used
-
-### Frameworks, Libraries and Programs Used
-
-## Deployment
-
-### Remote Deployment
-
-### Local Deployment
-
-## Testing (Manual)
-
-### User Experience Testing
-
-### Bugs and Fixes
-
-### Lighthouse Testing
-
-### Validator Testing
-
-## Credits
-
-### Code Used
-
-### Content
-
-### Media
-
-### Acknowledgements
+- [LangChain Documentation](https://js.langchain.com/docs) - learn about LangChain
+- [Ollama](https://ollama.ai/) - learn about Ollama features, models, and API
+- [Qdrant Documentation](https://qdrant.tech/documentation/) - learn about Qdrant
+- [Vercel AI SDK docs](https://sdk.vercel.ai/docs) - learn mode about the Vercel AI SDK
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API
