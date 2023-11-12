@@ -11,12 +11,10 @@ import { searchVectorDB } from "./vector-db";
 
 export async function POST(req: Request) {
   const languages = ['en', 'de', 'fr']
-  const language = 'fr'
+  const language = 'en'
   const frontend_tones = ['expert', 'no-expert']
   const frontend_tone = 'expert'
   const location = 'Zurich'
-
-
 
   const { messages } = (await req.json()) as { messages: Message[] };
 
@@ -111,10 +109,14 @@ ${x?.payload?.content}
   }
   const user_profile = user_profiles[language]
 
+  console.log('user progile', user_profile)
+
   systemInstructions = user_profile + `
 ----
 
 CONTEXT: ${contextString}`;
+
+  console.log('systemInstructions =', systemInstructions)
 
   // Call and stream the LLM with the instructions, context and user messages.
   const stream = await chatModel
@@ -127,27 +129,31 @@ CONTEXT: ${contextString}`;
       { callbacks: [{ handleLLMEnd: () => data.close() }] }
     );
 
-  console.log('')
-  console.log('data = ', JSON.parse(data.data[0]).context[0].payload)
-  // console.log('data = ', JSON.parse(data.data[0]))
-
   const result = new StreamingTextResponse(
     stream.pipeThrough(createStreamDataTransformer(true)),
     {},
     data
   );
 
+    const streamSummary = parseMessages([{ id: "instructions",
+    role: "system", content: systemInstructions }, ...messages,]);
 
   return result
 }
 
 
 function parseMessages(messages: Message[]) {
-  return messages.map((m) =>
+  messages.forEach(m => {if (m.role == "assistant") {
+    console.log('ai message ', m.content)
+  }}
+  );
+  const parsedMessages = messages.map((m) =>
     m.role == "user"
       ? new HumanMessage(m.content)
       : m.role == "system"
       ? new SystemMessage(m.content)
       : new AIMessage(m.content)
   );
+
+  return parsedMessages;
 }

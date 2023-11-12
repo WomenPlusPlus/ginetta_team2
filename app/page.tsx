@@ -9,6 +9,8 @@ type DataType = {
 
 export default function Chat() {
   const { messages, data, input, handleInputChange, handleSubmit } = useChat();
+  const languages = ['en', 'de', 'fr']
+  const language = 'fr'
 
 
   const parsedData = useMemo<DataType[]>(
@@ -20,6 +22,16 @@ export default function Chat() {
   const articles = parsedData && parsedData[1].context.reduce((acc, article) => {acc[article.payload.article] = article.payload.link;
                                                           return acc;
                                                           }, {});
+
+  // Change links if language is German or French
+    for (const key in articles) {
+      let replacement = `/${language}#`
+
+      if (articles.hasOwnProperty(key)) {
+        const updatedLink = articles[key].replace("/en#", replacement);
+        articles[key] = updatedLink;
+      }
+    }
 
   return (
     <div className="mx-auto w-full max-w-md py-24 flex flex-col stretch">
