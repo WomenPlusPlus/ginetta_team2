@@ -10,15 +10,26 @@ import { BytesOutputParser } from "langchain/schema/output_parser";
 import { searchVectorDB } from "./vector-db";
 
 export async function POST(req: Request) {
-  const languages = ['en', 'de', 'fr']
-  const language = 'en'
+  const { messages } = (await req.json()) as { messages: Message[] };
+
+  let language
+
+  for (let i = 0; i < messages.length; i++) {
+  let message = messages[i]
+    if (message.content === 'Deutsch') {
+      language = 'de'
+      break;
+    } else if (message.content === 'Francais') {
+      language = 'fr'
+      break;
+    } else {
+      language = 'en'
+    }
+  }
+
   const location = 'Zurich'
   const frontend_tones = ['expert', 'no-expert']
   const frontend_tone = 'expert'
-
-  const { messages } = (await req.json()) as { messages: Message[] };
-
-  console.log({messages})
 
   const contextSearchModel = new ChatOllama({
     baseUrl: process.env.OLLAMA_BASE_URL,
@@ -38,6 +49,8 @@ export async function POST(req: Request) {
     'de': "Formulieren Sie bei der folgenden Konversation und einer Folgefrage die Folgefrage so um, dass sie eine eigenständige stichwortbasierte Frage ist. Beantworten Sie nur die Frage, sonst nichts.",
   'fr': "A partir de la conversation suivante et d'une question de suivi, reformulez la question de suivi pour en faire une question autonome basée sur des mots-clés. Ne répondez qu'à la question, rien d'autre."}
   const reasked_question = reasked_questions[language]
+
+  console.log("reasked_question=", reasked_question)
 
   // Extract a standalone question to later query the vector db.
   const answer = await contextSearchModel.call(
@@ -62,9 +75,6 @@ Standalone question:`,
   const context = await searchVectorDB(answer.content, topDocumentsLimit);
 
   data.append(JSON.stringify({ context }));
-
-  console.log("context =", context.length)
-  console.log("context =", context[0].payload)
 
   const contextString = context
     .map(
@@ -92,6 +102,8 @@ ${x?.payload?.content}
 
   const tone = tones[language][frontend_tone]
 
+  console.log("tone =", tone)
+
   const user_profiles = {'en': "You are a legal assistant expert on the Swiss Code of Obligations. " +
         "Answer questions related to contract law, employment regulations, or corporate obligations. " +
         `Base your answers exclusively on the provided top ${topDocumentsLimit} articles from the Swiss ` +
@@ -110,6 +122,10 @@ ${x?.payload?.content}
         " explicitement couverte par le contexte fourni, veuillez l'indiquer." + tone
   }
   const user_profile = user_profiles[language]
+
+  console.log('user_profile ', user_profile)
+  console.log(' ')
+  console.log('reasked_question ', reasked_question)
 
 
   systemInstructions = user_profile + `
@@ -144,11 +160,6 @@ CONTEXT: ${contextString}`;
 
 
 function parseMessages(messages: Message[]) {
-  console.log('messages =', messages)
-  messages.forEach(m => {if (m.role == "assistant") {
-    console.log('ai message ', m.content)
-  }}
-  );
   const parsedMessages = messages.map((m) =>
     m.role == "user"
       ? new HumanMessage(m.content)
