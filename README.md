@@ -11,6 +11,12 @@ This is a simple conversational-ui RAG (retrieval augmented generation) based on
 [Sirinya Richardson](https://www.linkedin.com/in/sirinya-richardson/) <br />
 [Yaiza Aragonés-Soria](https://www.linkedin.com/in/yaiza-aragonessoria/) <br />
 
+## 👩‍💻 Contributions
+We improved the initial chatbot by introducing the following functionalitie:
+1. User is asked three onboarding questions (language, familiarity with law and location) such that the answers of the chatbot are tailored to their profile.
+2. User can interact with the chatbot in English, German or French.
+3. Design of new user interface.
+
 ## ℹ️ Instructions
 
 1. Use this repository as a template (or Fork it)
