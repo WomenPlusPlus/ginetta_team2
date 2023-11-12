@@ -5,11 +5,11 @@ This is a simple conversational-ui RAG (retrieval augmented generation) based on
 > It was created a starting point of the Ginetta Challenge at the women++ [Hack'n'Lead hackathon](www.womenplusplus.ch/hackandlead) November 2023
 
 ## 🙋‍♀️ Team
-Sanaz Reinhardt \\
+[Ana R Correia](https://www.linkedin.com/in/ana-correia/) \newlinw
 [Karin Sim](https://www.linkedin.com/in/karin-nakanishi/)
-Sirinya Richardson
-Ana R Correia
-Yaiza Aragonés-Soria
+[Sanaz Reinhardt](https://www.linkedin.com/in/sanaz-reinhardt/) \newline
+[Sirinya Richardson](https://www.linkedin.com/in/sirinya-richardson/)
+[Yaiza Aragonés-Soria](https://www.linkedin.com/in/yaiza-aragonessoria/)
 
 ## ℹ️ Instructions
 
