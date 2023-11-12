@@ -18,6 +18,8 @@ export async function POST(req: Request) {
 
   const { messages } = (await req.json()) as { messages: Message[] };
 
+  console.log({messages})
+
   const contextSearchModel = new ChatOllama({
     baseUrl: process.env.OLLAMA_BASE_URL,
     model: process.env.OLLAMA_MODEL_NAME,
