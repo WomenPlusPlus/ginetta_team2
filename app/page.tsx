@@ -2,12 +2,16 @@
 
 import {useMemo} from "react";
 import {useChat} from "ai/react";
+import {useState} from 'react';
+
 
 type DataType = {
     context: any[];
 };
 
 export default function Chat() {
+    const [selectedLanguage, setSelectedLanguage] = useState<'English' | 'Deutsch' | 'Francais' | null>(null);
+
     const {messages, data, input, handleInputChange, handleSubmit, append, setMessages} = useChat();
 
     const parsedData = useMemo<DataType[]>(
@@ -16,24 +20,30 @@ export default function Chat() {
     );
 
     const handleLanguage = (e: MouseEventHandler<HTMLButtonElement>) => {
+
         const buttonWrappers = Array.from(document.getElementsByClassName('languageSelection'))
         buttonWrappers[0].classList.add('hidden');
 
-        setMessages(
-            [
-                {id: '', role: 'assistant', content: 'What is your preferred lanauge?'},
-                {id: '', role: 'user', content: e.target.dataset.language}
-            ]
-        )
-    }
+        const language = e.currentTarget.dataset.language as 'English' | 'Deutsch' | 'Francais';
+        setSelectedLanguage(language);
 
-    const handleExpertise = (e: MouseEventHandler<HTMLButtonElement>) => {
-        const buttonWrappers = Array.from(document.getElementsByClassName('levelOfExpertise'))
-        buttonWrappers[0].classList.add('hidden');
+        let question = {
+            English: 'How can I help you?',
+            Deutsch: 'Wie kann ich Ihnen helfen?',
+            Francais: 'Comment puis-je vous aider?',
+        }
+
+        console.log(question[language])
+
+        // append({role: 'user', content: language});
+        //
+        // append({role: 'assistant', content: question[language]});
+
         setMessages(
             [
-                {id: '', role: 'assistant', content: 'How familiar are you with the Swiss law?'},
-                {id: '', role: 'user', content: e.target.dataset.language}
+                {id: '', role: 'assistant', content: 'What is your preferred language?'},
+                {id: '', role: 'user', content: language},
+                {id: '', role: 'assistant', content: question[language]},
             ]
         )
     }
@@ -58,16 +68,28 @@ export default function Chat() {
 
             <form onSubmit={handleSubmit}>
                 <div className='languageSelection'>
-                    <label htmlFor="language">What is your preferred language?</label>
-                    <button onClick={handleLanguage} data-language="English">English</button>
-                    <button onClick={handleLanguage} data-language="German">Deutsch</button>
-                    <button onClick={handleLanguage} data-language="French">Français</button>
+                    <p>What is your preferred language?</p>
+                    {/*<div className="block flex space-x-4 ">*/}
+
+                    {!selectedLanguage && (
+                        <div className="block flex space-x-4 ">
+                            <button
+                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded"
+                                onClick={handleLanguage} data-language="English">English
+                            </button>
+                            <button
+                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded"
+                                onClick={handleLanguage} data-language="Deutsch">Deutsch
+                            </button>
+                            <button
+                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded"
+                                onClick={handleLanguage} data-language="Français">Français
+                            </button>
+                        </div>
+                    )}
+
+                    {/*</div>*/}
                 </div>
-                {/*<div className='levelOfExpertise'>*/}
-                {/*    <label htmlFor="expertise">How familiar are you with the Swiss law?</label>*/}
-                {/*    <button onClick={handleExpertise}>Not at all</button>*/}
-                {/*    <button onClick={handleLanguage}>Pretty familiar</button>*/}
-                {/*</div>*/}
                 <input
                     className="fixed w-full max-w-md bottom-0 border border-gray-300 rounded mb-8 shadow-xl p-2"
                     value={input}
