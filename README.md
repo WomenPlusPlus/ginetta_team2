@@ -16,6 +16,8 @@ We improved the initial chatbot by introducing the following functionalitie:
 1. User is asked three onboarding questions (language, familiarity with law and location) such that the answers of the chatbot are tailored to their profile.
 2. User can interact with the chatbot in English, German or French.
 3. Design of new user interface.
+![Home page](https://raw.githubusercontent.com/WomenPlusPlus/ginetta_team2/main/docs/interface_design/Group%20367.png)
+
 
 ## ℹ️ Instructions
 
