@@ -12,9 +12,9 @@ import { searchVectorDB } from "./vector-db";
 export async function POST(req: Request) {
   const languages = ['en', 'de', 'fr']
   const language = 'en'
+  const location = 'Zurich'
   const frontend_tones = ['expert', 'no-expert']
   const frontend_tone = 'expert'
-  const location = 'Zurich'
 
   const { messages } = (await req.json()) as { messages: Message[] };
 
@@ -82,11 +82,11 @@ ${x?.payload?.content}
 
   const tones = {'en': {
       'expert': `Consider you are talking to a expert lawyer who lives in ${location}`,
-      'no-expert': `Consider you are talking to a layman who lives in ${location}.`
-    },
-  'de': {'expert': `Stellen Sie sich vor, Sie sprechen mit einem Fachanwalt, der in ${location} lebt.`, 'no-expert': `Nehmen wir an, Sie sprechen mit einem Laien, der in ${location} lebt.`},
+      'no-expert': `Consider you are talking to a layman who lives in ${location}.`},
+  'de': {'expert': `Stellen Sie sich vor, Sie sprechen mit einem Fachanwalt, der in ${location} lebt.`,
+        'no-expert': `Nehmen wir an, Sie sprechen mit einem Laien, der in ${location} lebt.`},
   'fr': {'expert': `Considérez que vous vous adressez à un avocat spécialisé qui vit à ${location}.`,
-  'no-expert': `Considérez que vous vous adressez à un profane qui vit à ${location}.`}}
+          'no-expert': `Considérez que vous vous adressez à un profane qui vit à ${location}.`}}
 
   const tone = tones[language][frontend_tone]
 
@@ -109,7 +109,6 @@ ${x?.payload?.content}
   }
   const user_profile = user_profiles[language]
 
-  console.log('user progile', user_profile)
 
   systemInstructions = user_profile + `
 ----
@@ -143,6 +142,7 @@ CONTEXT: ${contextString}`;
 
 
 function parseMessages(messages: Message[]) {
+  console.log('messages =', messages)
   messages.forEach(m => {if (m.role == "assistant") {
     console.log('ai message ', m.content)
   }}
