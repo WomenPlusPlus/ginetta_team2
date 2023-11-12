@@ -74,16 +74,16 @@ export default function Chat() {
                     {!selectedLanguage && (
                         <div className="block flex space-x-4 ">
                             <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded"
+                                className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
                                 onClick={handleLanguage} data-language="English">English
                             </button>
                             <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded"
+                                className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
                                 onClick={handleLanguage} data-language="Deutsch">Deutsch
                             </button>
                             <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded"
-                                onClick={handleLanguage} data-language="Français">Français
+                                className="bg-transparent hover:bg-red-500 text-red-700 font-semibold hover:text-white py-2 px-4 border border-red-500 hover:border-transparent rounded"
+                                onClick={handleLanguage} data-language="Francais">Français
                             </button>
                         </div>
                     )}
