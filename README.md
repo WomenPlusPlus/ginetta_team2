@@ -4,6 +4,13 @@ This is a simple conversational-ui RAG (retrieval augmented generation) based on
 
 > It was created a starting point of the Ginetta Challenge at the women++ [Hack'n'Lead hackathon](www.womenplusplus.ch/hackandlead) November 2023
 
+## 🙋‍♀️ Team
+Sanaz Reinhardt
+[Karin Sim](https://www.linkedin.com/in/karin-nakanishi/)
+Sirinya Richardson
+Ana R Correia
+Yaiza Aragonés-Soria
+
 ## ℹ️ Instructions
 
 1. Use this repository as a template (or Fork it)
