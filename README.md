@@ -19,9 +19,14 @@ We improved the initial chatbot by introducing the following functionalitie:
 
 https://github.com/WomenPlusPlus/ginetta_team2/assets/30613818/80585b3e-be32-4b50-ba19-91e2ef072e07
 
-![Home page](https://raw.githubusercontent.com/WomenPlusPlus/ginetta_team2/main/docs/interface_design/Home.png)
-![Chat](https://raw.githubusercontent.com/WomenPlusPlus/ginetta_team2/main/docs/interface_design/Group%20367.png)
-![Onboarding](https://raw.githubusercontent.com/WomenPlusPlus/ginetta_team2/main/docs/interface_design/Onboarding.png)
+---
+
+![Home page](https://github.com/WomenPlusPlus/ginetta_team2/assets/30613818/f5b26478-095b-430a-83e3-07ea8c45fcbd)
+![Onboarding - Step 1](https://github.com/WomenPlusPlus/ginetta_team2/assets/30613818/6af562f3-7c95-4736-81a7-e72687f49db4)
+![Onboarding - Step 2](https://github.com/WomenPlusPlus/ginetta_team2/assets/30613818/89cdf846-76cd-4b02-be0e-7ccca3abed73)
+![Onboarding - Step 3](https://github.com/WomenPlusPlus/ginetta_team2/assets/30613818/d32c52b0-f281-4c02-aa5f-c057d43a0ba1)
+![Chat- Question](https://github.com/WomenPlusPlus/ginetta_team2/assets/30613818/ad7c776b-3e66-4607-9d31-93ee3459fa83)
+![Chat - Full Response](https://github.com/WomenPlusPlus/ginetta_team2/assets/30613818/6ccf7769-14b0-40af-848b-6fa1b0689f73)
 
 ## ℹ️ Instructions
 
