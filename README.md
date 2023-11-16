@@ -17,7 +17,7 @@ We improved the initial chatbot by introducing the following functionalitie:
 2. User can interact with the chatbot in English, German or French.
 3. Design of new user interface. <br />
 
-![Emilie Prototype | Figma Design by Sanaz Reinhardt](https://github.com/WomenPlusPlus/ginetta_team2/assets/30613818/80585b3e-be32-4b50-ba19-91e2ef072e07)
+https://github.com/WomenPlusPlus/ginetta_team2/assets/30613818/80585b3e-be32-4b50-ba19-91e2ef072e07
 
 ![Home page](https://raw.githubusercontent.com/WomenPlusPlus/ginetta_team2/main/docs/interface_design/Home.png)
 ![Chat](https://raw.githubusercontent.com/WomenPlusPlus/ginetta_team2/main/docs/interface_design/Group%20367.png)
